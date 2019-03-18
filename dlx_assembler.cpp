@@ -309,7 +309,7 @@ public:
     }
 };
 
-//Everything is broken into classes and functions, so the project can readily be split into multiple smaller files
+//Everything is broken into classes and functions, so the project can readily be split into smaller source files
 int main() {
     vector<string> vecOfCodeLine;
     vector<string> vecOfLabelsAdr;
