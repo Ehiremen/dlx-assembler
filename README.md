@@ -10,7 +10,7 @@ an assembler that converts dlx-format instructions to 32-bit binaries. done usin
   finally, run void convertAndWriteInstr(vector<string> vecOfCodeLine, vector<string> vecOfLabelsAdr) to generate the binaries for each instruction
   
 ### *files included:*
-  * [dlx_handouts.pdf]("dlx_handouts.pdf")    - dlx instruction format and examples
+  * [dlx_handouts.pdf](dlx_handouts.pdf)    - dlx instruction format and examples
   * [dlx_assembler.cpp](dlx_assembler.cpp)    - the main file for the project
   * [tempMap.h](tempMap.h)                    - a header file that goes with dlx_assembler.cpp
   * [CMakeLists.txt](CMakeLists.txt)
