@@ -7,7 +7,7 @@ an assembler that converts dlx-format instructions to 32-bit binaries. done usin
   * convert to lowercase and store in a new file (lower.txt)
   * remove commas, colons, and parentheses from the lower.txt file, and store in a new tokenated file (tk.txt)
   * read the first word of each instruction and check if that word is in either Opcode OR ALUFunc map; if not, we identify it as a label
-  finally, run void convertAndWriteInstr(vector<string> vecOfCodeLine, vector<string> vecOfLabelsAdr) to generate the binaries for each instruction
+  * finally, run void convertAndWriteInstr(vector<string> vecOfCodeLine, vector<string> vecOfLabelsAdr) to generate the binaries for each instruction
   
 **NOTE:**   dlx_assembler.cpp is fairly large (~600 lines), but everything called in main() is either a defined class or a defined function  so this code can readily be divided into multiple source files
   
