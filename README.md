@@ -1,5 +1,5 @@
 # **dlx-assembler**
-an assembler that converts dlx-format instructions to 32-bit binaries. done using C++ and compiled on JetBrains CLion
+an assembler that converts dlx-format instructions to 32-bit binaries. done using C++ and compiled on JetBrains CLion.  
   the program reads a dlx-format instruction file and converts each line to its equivalent assembly language format. the assembly instructions get written to a file (instr.txt)--this can be changed in "void convertAndWriteInstr(vector<string> vecOfCodeLine, vector<string> vecOfLabelsAdr)" ~line 546.
   
 ###  *my approach:*
