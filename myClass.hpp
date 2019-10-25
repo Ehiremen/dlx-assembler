@@ -4,11 +4,12 @@
 
 
 class R_Instr{  //for all R-type ALU instr
-public:
+private:
     const int opCode = 0;
     string opcodeStr = intToBinary(opCode, OPCODE_LENGTH);
     string rs1, rs2, rd, func, finalInstr;
 
+public:
     //code comes: func rd rs1 rs2; e.g. add r2 r3 r4 = r2 <- r3 ADD r4
     R_Instr(string &input){
         istringstream instrString(input);
@@ -41,14 +42,19 @@ public:
 
         finalInstr = opcodeStr + rs1 + rs2 + rd + func;
     }
+
+    string getInstr(){
+        return finalInstr;
+    }
 };
 
 class I_LHI_Instr{      //for LHI (load high immediate) instr
-public:
+private:
     int opcodeValue;
     string opcodeStr, rs1, immStr, finalInstr;
     const string rs2 = "00000";
 
+public:
     explicit I_LHI_Instr(string &input){
         istringstream instrString(input);
         int index = 0;
@@ -74,13 +80,17 @@ public:
 
         finalInstr = opcodeStr + rs1 + rs2 + immStr;
     }
+
+    string getInstr(){
+        return finalInstr;
+    }
 };
 
 class I_Load_Store_Instr {
 private:
-    string opcode, rs1, rs2, imm;
+    string opcode, rs1, rs2, imm, finalInstr;
 
-    void splitter(string word) {
+    void split(string word) {
         int rIndex;
         for (int i = 0; i < word.length(); i++){
             if (word[i] != 'r') {
@@ -96,7 +106,6 @@ private:
     }
 
 public:
-    string finalInstr;
     I_Load_Store_Instr (string input ) {
         istringstream tempStr(input);
         int count = 0;
@@ -112,14 +121,14 @@ public:
             tempStr >> word;
             rs2 = registerToBinary(word);
             tempStr >> word;
-            splitter(word);
+            split(word);
             rs1 = registerToBinary(rs1);
             int conv = stoi(imm);
             imm = intToBinary(conv, IMM_LENGTH);
         }
         else { //for store
             tempStr >> word;
-            splitter(word); //gets imm and rs1
+            split(word); //gets imm and rs1
             rs1 = registerToBinary(rs1);
             int conv = stoi(imm);
             imm = intToBinary(conv, IMM_LENGTH);
@@ -133,87 +142,13 @@ public:
         return finalInstr;
     }
 };
-/*
-class I_Load_Instr{     //for LOAD instrs in format: [instr] [rs2] [imm]([rs1])
-public:
-    int opcodeValue;
-    string opcodeStr;
-    string rs1, rs2, immStr, finalInstr;
-
-    explicit I_Load_Instr(string &input){
-        istringstream instrString(input);
-        int index = 0;
-        string immWithReg, immTemp, rs1Temp;
-
-        //instr format: opcode rs2 immRs1
-        do {
-            string tempWord;
-            instrString >> tempWord;
-
-            if (index == 0){
-                auto opCode = Opcode.find(tempWord);    //iterator for Opcode map
-                opcodeValue = opCode->second;           //get the number mapped to the opCode
-                opcodeStr = intToBinary(OPCODE_LENGTH, opcodeValue);
-            }
-            else if (index == 1){
-                rs2 = registerToBinary(tempWord);
-            }
-            else if (index == 2){
-                immWithReg = tempWord;
-                splitString(immWithReg, &rs1Temp, &immTemp);
-                rs1 = registerToBinary(rs1Temp);
-                immStr = immToBinary(immTemp);
-            }
-            index++;
-        } while (instrString);
-
-        finalInstr = opcodeStr + rs1 + rs2 + immStr;
-    }
-};
-
-class I_Store_Instr{    //for STORE instr
-public:
-    int opcodeValue;
-    string opcodeStr;
-    string rs1, rs2, immStr, finalInstr;
-
-    explicit I_Store_Instr(string &strng){
-        istringstream instrString(strng);
-        int tempIndex = 0;
-        string immWithReg, immTemp, rs1Temp;
-
-        //instr format: opcode immRs1 rs2
-        do {
-            string tempWord;
-            instrString >> tempWord;
-
-            if (tempIndex == 0){
-                auto opCode = Opcode.find(tempWord);    //iterator for Opcode map
-                opcodeValue = opCode->second;           //get the number mapped to the opCode
-                opcodeStr = intToBinary(OPCODE_LENGTH, opcodeValue);
-            }
-            else if (tempIndex == 1){
-                immWithReg = tempWord;
-                splitString(immWithReg, &rs1Temp, &immTemp);
-                rs1 = registerToBinary(rs1Temp);
-                immStr = immToBinary(immTemp);
-            }
-            else if (tempIndex == 2){
-                rs2 = registerToBinary(tempWord);
-            }
-            tempIndex++;
-        } while (instrString);
-
-        finalInstr = opcodeStr + rs1 + rs2 + immStr;
-    }
-};
-*/
 
 class I_Math_Instr{ //for I-type ALU instructions
-public:
+private:
     int opcodeValue;
     string opcodeStr, rs1, rs2, immStr, finalInstr;
 
+public:
     explicit I_Math_Instr(string &input){
         istringstream instrString(input);
         int index = 0;
@@ -242,15 +177,20 @@ public:
 
         finalInstr = opcodeStr + rs1 + rs2 + immStr;
     }
+
+    string getInstr(){
+        return finalInstr;
+    }
 };
 
 class I_Jump_Instr{ //for JR and JALR instructions
-public:
+private:
     int opcodeValue;
     string opcodeStr, rs1, finalInstr;
     const string rs2 = "00000";
     const string immStr = intToBinary(0, IMM_LENGTH);
 
+public:
     explicit I_Jump_Instr(string &input){
         istringstream instrString(input);
         int index = 0;
@@ -273,16 +213,20 @@ public:
 
         finalInstr = opcodeStr + rs1 + rs2 + immStr;
     }
+    string getInstr(){
+        return finalInstr;
+    }
 };
 
 class J_OR_Branch_Instr{    //for regular Jump and Branch instr
-public:
+private:
     int opcode;
     int offset;
     string rs1;
     string rs2 = "00000";
     string labelName, offsetStr, opcodeStr, finalInstr;
 
+public:
     J_OR_Branch_Instr(string input, int currentInstrLine, vector<string> labels) {
         istringstream instrString(input);
         int tempIndex = 0;
@@ -328,5 +272,9 @@ public:
             offsetStr = intToBinary(offset, IMM_LENGTH);
             finalInstr = opcodeStr + rs1 + rs2 + offsetStr;
         }
+    }
+
+    string getInstr(){
+        return finalInstr;
     }
 };
