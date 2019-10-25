@@ -1,4 +1,6 @@
-##include "help.hpp"
+#include "help.hpp"
+
+char flip(char c) {return (c == '0')? '1': '0';}
 
 string getFileName(){
     string inputFileName;
@@ -19,8 +21,8 @@ string getFileName(){
             cout << "FILE: " << inputFileName << " NOT FOUND\n" << endl;
             continue;
         }
+        inputFile.close();
     }
-    inputFile.close();
     return inputFileName;
 }
 
@@ -53,7 +55,7 @@ string registerToBinary(const string &regName){
     regString.erase(0, 1);   //delete "r" (first character in string)
     int regInt = stoi(regString);
 
-    return intToBinary(registerNo, REG_LENGTH);
+    return intToBinary(regInt, REG_LENGTH);
 }
 
 string intToBinary(int number, int outputLength){
@@ -136,61 +138,3 @@ vector<string> getLabels(vector<string> &codeLines){
     return labels;
 }
 
-vector<string> convertAndWriteInstr(vector<string> vecOfCodeLine, vector<string> vecOfLabelsAdr){
-    vector<string> out;
-    int instrLine = 0;
-    int tempValue;
-    ofstream instrFile("instr.txt");
-
-    for(auto x: vecOfCodeLine){
-        istringstream tempStr(x);
-
-        // Read a word (the first word of the string)
-        string word;
-        tempStr >> word;
-        auto opcodeCheck = Opcode.find(word);       //iterator for Opcode map
-        auto funcCodeCheck = AluFunc.find(word);    //iterator for AluFunc map
-        if (opcodeCheck != Opcode.end()){
-            tempValue = opcodeCheck->second;
-            if ((tempValue >= 2) && (tempValue <= 5)){
-                J_OR_Branch_Instr instr(x, instrLine, vecOfLabelsAdr);
-                out.emplace_back(instr.finalInstr);
-                instrFile << instr.finalInstr << endl;
-            }
-            else if (((tempValue >= 8) && (tempValue <= 14)) || ((tempValue >= 24) && (tempValue <= 29))
-                || (tempValue >= 48)){
-                I_Math_Instr instr(x);
-                out.emplace_back(instr.finalInstr);
-                instrFile << instr.finalInstr << endl;
-            }
-            else if (tempValue == 15){
-                I_LHI_Instr instr(x);
-                out.emplace_back(instr.finalInstr);
-                instrFile << instr.finalInstr << endl;
-            }
-            else if ((tempValue == 18) || (tempValue == 19)){
-                I_Jump_Instr instr(x);
-                out.emplace_back(instr.finalInstr);
-                instrFile << instr.finalInstr << endl;
-            }
-            else if ((tempValue >= 32) && (tempValue <= 37)){
-                I_Load_Store_Instr instr(x);
-                out.emplace_back(instr.finalInstr);
-                instrFile << instr.finalInstr << endl;
-            }
-            else if ((tempValue >= 40) && (tempValue <= 43)){
-                I_Load_Store_Instr instr(x);
-                out.emplace_back(instr.finalInstr);
-                instrFile << instr.finalInstr << endl;
-            }
-        }
-        else if (funcCodeCheck != AluFunc.end()){
-            R_Instr instr(x);
-            out.emplace_back(instr.finalInstr);
-            instrFile << instr.finalInstr << endl;
-        }
-        instrLine++;
-    }
-    instrFile.close();
-    return out;
-}

@@ -11,13 +11,14 @@
 #include "tempMap.h"
 
 #define OPCODE_LENGTH 6
+#define REG_LENGTH 5
 #define FUNC_LENGTH 11
 #define IMM_LENGTH 16
 #define OFFSET_LENGTH 26
 
 using namespace std;
 // Returns '0' for '1' and '1' for '0'
-char flip(char c) {return (c == '0')? '1': '0';}
+char flip(char c);
 
 string getFileName();
     /* lets the user specify what file to get instructions from; prompts for a retry if unable to find/open file.
@@ -36,4 +37,3 @@ string negToBinary(string posBinary);
     /* given a binary representation of a number (without considering the sign), returns a string containing the twos complement of that number
     */
 vector<string> getLabels(vector<string> &codeLines);
-vector<string> convertAndWriteInstr(vector<string> vecOfCodeLine, vector<string> vecOfLabelsAdr);
