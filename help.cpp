@@ -174,12 +174,12 @@ vector<string> convertAndWriteInstr(vector<string> vecOfCodeLine, vector<string>
                 instrFile << instr.finalInstr << endl;
             }
             else if ((tempValue >= 32) && (tempValue <= 37)){
-                I_Load_Instr instr(x);
+                I_Load_Store_Instr instr(x);
                 out.emplace_back(instr.finalInstr);
                 instrFile << instr.finalInstr << endl;
             }
             else if ((tempValue >= 40) && (tempValue <= 43)){
-                I_Store_Instr instr(x);
+                I_Load_Store_Instr instr(x);
                 out.emplace_back(instr.finalInstr);
                 instrFile << instr.finalInstr << endl;
             }

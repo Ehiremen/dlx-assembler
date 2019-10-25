@@ -10,6 +10,11 @@
 #include <vector>
 #include "tempMap.h"
 
+#define OPCODE_LENGTH 6
+#define FUNC_LENGTH 11
+#define IMM_LENGTH 16
+#define OFFSET_LENGTH 26
+
 using namespace std;
 // Returns '0' for '1' and '1' for '0'
 char flip(char c) {return (c == '0')? '1': '0';}
