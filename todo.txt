@@ -1,0 +1,3 @@
+reduce length of dlx_assembler.cpp:
+  create "output_help.cpp/hpp"
+  hex conversions!
